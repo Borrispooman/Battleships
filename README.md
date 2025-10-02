@@ -1,1 +1,1 @@
-Remeber to change the name in package.lock.json to the name of your project, and run npm install!
+Battleships in the browser! - come back and change this, make detailed like portfolio project.
