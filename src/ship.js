@@ -3,5 +3,15 @@ export default class Ship {
     this.length = length;
     this.sunk = false;
     this.hits = 0;
+    this.spanXYsArr = null;
+  }
+  hit() {
+    this.hits++;
+  }
+  isSunk() {
+    if (this.hits >= this.length) {
+      return true;
+    }
+    return false;
   }
 }
