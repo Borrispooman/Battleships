@@ -13,6 +13,7 @@ export default class Gameboard {
     for (let i = 0; i < ship.spanXYsArr.length; i++) {
       this.board[ship.spanXYsArr[i][0]][ship.spanXYsArr[i][1]] = ship;
     }
+    // ^-- we need the board for receive attack to work, but we will always avoid searching the board, instead create references arrs to ships and misses and shipsHits;
     this.ships.push(ship);
   }
   receiveAttack(XY) {
@@ -20,7 +21,7 @@ export default class Gameboard {
 
     const cell = this.board[x][y];
     if (isObject(cell)) {
-      cell.hit();
+      cell.hit(XY);
     } else {
       this.board[x][y] = "miss";
       this.misses.push(XY);
