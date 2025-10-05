@@ -13,8 +13,29 @@ const Dom = (() => {
     }
     document.querySelector(targetDiv).append(boardDiv);
   };
+  const renderShips = (gameboard) => {
+    //const visitedIDs = []; -- unsure if this is nescessary yet
 
-  return { renderBoard };
+    for (let i = 0; i < gameboard.ships.length; i++) {
+      //if (visitedIDs.includes(gameboard.ships[i].id)) {
+      //		continue;
+      //}
+
+      for (let j = 0; j < gameboard.ships[i].spanXYsArr.length; j++) {
+        const x = gameboard.ships[i].spanXYsArr[j][0];
+        const y = gameboard.ships[i].spanXYsArr[j][1];
+
+        console.log(`trying to place ship at coordinates ${x} ${y}`);
+
+        const cell = document.getElementById(`${x}${y}`);
+        cell.style.backgroundColor = "lightgreen";
+
+        //      visitedIDs.push(gameboard.ships[i].id);
+      }
+    }
+  };
+
+  return { renderBoard, renderShips };
 })();
 
 export default Dom;
