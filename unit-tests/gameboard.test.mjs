@@ -26,10 +26,10 @@ test("Gameboard receiveAttack handles miss", () => {
 	expect(gameBoard.board[0][0]).toBe('miss');
 });
 
-test("receiveAttack tracks misses", () => {
+test("receiveAttack tracks attackedCells", () => {
 	const gameBoard = new Gameboard();	
 	gameBoard.receiveAttack([0,0]);
-	expect(gameBoard.misses[gameBoard.misses.length - 1]).toEqual([0,0]);
+	expect(gameBoard.attackedCells[gameBoard.attackedCells.length - 1]).toEqual([0,0]);
 });
 
 

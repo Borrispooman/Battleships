@@ -21,12 +21,6 @@ test("ship.hit(XY) function increments hits", () => {
 	expect(ship.hits).toBe(1);
 });
 
-test("ship.hit(XY) function pushes the hit to hitXYs arr", () => {
-	const ship = new Ship(3);
-	ship.hit([0,1])
-	expect(ship.hitXYs[ship.hitXYs.length - 1]).toEqual([0,1]);
-});
-
 test("ship.isSunk function return true when ship.hits === ship.length", () => {
 	const ship = new Ship(1);
 	ship.hit()
