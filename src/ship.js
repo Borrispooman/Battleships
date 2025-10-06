@@ -3,12 +3,10 @@ export default class Ship {
     this.length = length;
     this.sunk = false;
     this.hits = 0;
-    this.hitXYs = [];
     this.spanXYsArr = null;
     this.id = crypto.randomUUID();
   }
-  hit(XY) {
-    this.hitXYs.push(XY);
+  hit() {
     this.hits++;
   }
   isSunk() {
