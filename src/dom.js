@@ -25,8 +25,6 @@ const Dom = (() => {
         const x = gameboard.ships[i].spanXYsArr[j][0];
         const y = gameboard.ships[i].spanXYsArr[j][1];
 
-        console.log(`trying to place ship at coordinates ${x} ${y}`);
-
         const cell = document.querySelector(
           `.${playerTag}-board-cell[id="${x}${y}"]`,
         );
@@ -36,8 +34,17 @@ const Dom = (() => {
       }
     }
   };
+  const renderHit = (XY, playerTag) => {
+    const hitMarker = document.createElement("div");
+    hitMarker.className = "hit-marker";
+    const [x, y] = XY;
+    const cell = document.querySelector(
+      `.${playerTag}-board-cell[id="${x}${y}"]`,
+    );
+    cell.append(hitMarker);
+  };
 
-  return { renderBoard, renderShips };
+  return { renderBoard, renderShips, renderHit };
 })();
 
 export default Dom;

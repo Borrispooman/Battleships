@@ -22,12 +22,10 @@ export default class Gameboard {
     this.ships.push(ship);
   }
   receiveAttack(XY) {
+    console.log(XY);
     const [x, y] = XY;
 
     const cell = this.board[x][y];
-
-    console.log(this.attackedCells);
-    console.log(arrOfXYsContains(this.attackedCells, XY));
 
     if (arrOfXYsContains(this.attackedCells, XY)) {
       return null;
