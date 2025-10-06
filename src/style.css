@@ -44,3 +44,10 @@ body {
   height: 70%;
   width: 70%;
 }
+
+.miss-marker {
+  background-color: grey;
+  border-radius: 50%;
+  height: 70%;
+  width: 70%;
+}

@@ -43,8 +43,17 @@ const Dom = (() => {
     );
     cell.append(hitMarker);
   };
+  const renderMiss = (XY, playerTag) => {
+    const missMarker = document.createElement("div");
+    missMarker.className = "miss-marker";
+    const [x, y] = XY;
+    const cell = document.querySelector(
+      `.${playerTag}-board-cell[id="${x}${y}"]`,
+    );
+    cell.append(missMarker);
+  };
 
-  return { renderBoard, renderShips, renderHit };
+  return { renderBoard, renderShips, renderHit, renderMiss };
 })();
 
 export default Dom;
