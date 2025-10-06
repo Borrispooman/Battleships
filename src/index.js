@@ -103,11 +103,19 @@ p1BoardCells.forEach((cell) =>
         Dom.renderHit(intXY, "p1");
         p1Turn = true;
         p2Turn = false;
+        if (!aiMode) {
+          Dom.deRenderShips("p2");
+          Dom.renderShips(gameboard, "p1");
+        }
         return;
       } else if (status === "miss") {
         Dom.renderMiss(intXY, "p1");
         p1Turn = true;
         p2Turn = false;
+        if (!aiMode) {
+          Dom.renderShips(gameboard, "p1");
+          Dom.deRenderShips("p2");
+        }
         return;
       } else {
         //Dom.handleAlreadyAttacked();
@@ -134,6 +142,9 @@ p2BoardCells.forEach((cell) =>
         p1Turn = false;
         if (aiMode) {
           computerAttack();
+        } else {
+          Dom.renderShips(p2gameboard, "p2");
+          Dom.deRenderShips("p1");
         }
         return;
       } else if (status === "miss") {
@@ -142,6 +153,9 @@ p2BoardCells.forEach((cell) =>
         p1Turn = false;
         if (aiMode) {
           computerAttack();
+        } else {
+          Dom.deRenderShips("p1");
+          Dom.renderShips(p2gameboard, "p2");
         }
         return;
       } else {
@@ -179,8 +193,3 @@ function computerAttack() {
 createDummyShip(gameboard, p2gameboard);
 
 Dom.renderShips(gameboard, "p1");
-window.rD = function rD() {
-  Dom.renderShips(gameboard, "p1");
-};
-
-//Dom.renderShips(p2gameboard, "p2");

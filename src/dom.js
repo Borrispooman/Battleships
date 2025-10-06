@@ -34,6 +34,11 @@ const Dom = (() => {
       }
     }
   };
+  const deRenderShips = (playerTag) => {
+    document.querySelectorAll(`.${playerTag}-board-cell`).forEach((cell) => {
+      cell.style.backgroundColor = "white";
+    });
+  };
   const renderHit = (XY, playerTag) => {
     const hitMarker = document.createElement("div");
     hitMarker.className = "hit-marker";
@@ -42,6 +47,7 @@ const Dom = (() => {
       `.${playerTag}-board-cell[id="${x}${y}"]`,
     );
     cell.append(hitMarker);
+    console.log("renderHit finished");
   };
   const renderMiss = (XY, playerTag) => {
     const missMarker = document.createElement("div");
@@ -51,9 +57,10 @@ const Dom = (() => {
       `.${playerTag}-board-cell[id="${x}${y}"]`,
     );
     cell.append(missMarker);
+    console.log("renderMiss finished");
   };
 
-  return { renderBoard, renderShips, renderHit, renderMiss };
+  return { renderBoard, renderShips, deRenderShips, renderHit, renderMiss };
 })();
 
 export default Dom;
