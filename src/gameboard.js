@@ -3,11 +3,16 @@ function isObject(value) {
   return type === "object" && value !== null; // Exclude null, which typeof also returns as 'object'
 }
 
+function arrOfXYsContains(arrOfXYs, target) {
+  return arrOfXYs.some((arr) => arr[0] === target[0] && arr[1] === target[1]);
+}
+
 export default class Gameboard {
   constructor() {
     this.board = Array.from({ length: 10 }, () => Array(10).fill(null));
     this.ships = [];
-    this.misses = [];
+    this.attackedCells = [];
+    this.hits = [];
   }
   placeShip(ship) {
     for (let i = 0; i < ship.spanXYsArr.length; i++) {
@@ -20,11 +25,21 @@ export default class Gameboard {
     const [x, y] = XY;
 
     const cell = this.board[x][y];
+
+    console.log(this.attackedCells);
+    console.log(arrOfXYsContains(this.attackedCells, XY));
+
+    if (arrOfXYsContains(this.attackedCells, XY)) {
+      return null;
+    }
     if (isObject(cell)) {
-      cell.hit(XY);
+      cell.hit();
+      this.attackedCells.push(XY);
+      return "hit";
     } else {
       this.board[x][y] = "miss";
-      this.misses.push(XY);
+      this.attackedCells.push(XY);
+      return "miss";
     }
   }
   checkAllShipsSunk() {
