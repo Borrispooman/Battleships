@@ -17,7 +17,8 @@ body {
   gap: 100px;
 }
 
-.board-div {
+.p1-board-div,
+.p2-board-div {
   display: grid;
   grid-template-columns: repeat(10, 50px);
   grid-template-rows: repeat(10, 50px);

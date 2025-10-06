@@ -1,7 +1,7 @@
 const Dom = (() => {
   const renderBoard = (targetDiv, playerTag) => {
     const boardDiv = document.createElement("div");
-    boardDiv.className = "board-div";
+    boardDiv.className = `${playerTag}-board-div`;
     for (let i = 0; i < 100; i++) {
       const x = Math.floor(i / 10);
       const y = i % 10;
