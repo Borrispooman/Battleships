@@ -14,7 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   display: flex;
-  gap: 10px;
+  gap: 100px;
 }
 
 .board-div {
@@ -25,7 +25,8 @@ body {
   border-bottom-style: solid;
 }
 
-.board-cell {
+.p1-board-cell,
+.p2-board-cell {
   height: 50px;
   width: 50px;
   border-top-style: solid;

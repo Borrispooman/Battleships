@@ -1,5 +1,5 @@
 const Dom = (() => {
-  const renderBoard = (targetDiv) => {
+  const renderBoard = (targetDiv, playerTag) => {
     const boardDiv = document.createElement("div");
     boardDiv.className = "board-div";
     for (let i = 0; i < 100; i++) {
@@ -8,12 +8,12 @@ const Dom = (() => {
 
       const cell = document.createElement("div");
       cell.id = `${x}${y}`;
-      cell.className = "board-cell";
+      cell.className = `${playerTag}-board-cell`;
       boardDiv.append(cell);
     }
     document.querySelector(targetDiv).append(boardDiv);
   };
-  const renderShips = (gameboard) => {
+  const renderShips = (gameboard, playerTag) => {
     //const visitedIDs = []; -- unsure if this is nescessary yet
 
     for (let i = 0; i < gameboard.ships.length; i++) {
@@ -27,7 +27,9 @@ const Dom = (() => {
 
         console.log(`trying to place ship at coordinates ${x} ${y}`);
 
-        const cell = document.getElementById(`${x}${y}`);
+        const cell = document.querySelector(
+          `.${playerTag}-board-cell[id="${x}${y}"]`,
+        );
         cell.style.backgroundColor = "lightgreen";
 
         //      visitedIDs.push(gameboard.ships[i].id);
