@@ -1,3 +1,7 @@
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const Dom = (() => {
   const renderBoard = (targetDiv, playerTag) => {
     const boardDiv = document.createElement("div");
@@ -39,7 +43,8 @@ const Dom = (() => {
       cell.style.backgroundColor = "white";
     });
   };
-  const renderHit = (XY, playerTag) => {
+  const renderHit = async (XY, playerTag) => {
+    await sleep(1500);
     const hitMarker = document.createElement("div");
     hitMarker.className = "hit-marker";
     const [x, y] = XY;
@@ -47,9 +52,18 @@ const Dom = (() => {
       `.${playerTag}-board-cell[id="${x}${y}"]`,
     );
     cell.append(hitMarker);
+    hitMarker.animate(
+      [
+        { transform: "scale(0.6)", opacity: 0.6, offset: 0 },
+        { transform: "scale(1.15)", opacity: 1, offset: 0.6 },
+        { transform: "scale(1.0)", opacity: 1, offset: 1 },
+      ],
+      { duration: 500, easing: "ease-out", iterations: 1 },
+    );
     console.log("renderHit finished");
   };
-  const renderMiss = (XY, playerTag) => {
+  const renderMiss = async (XY, playerTag) => {
+    await sleep(1500);
     const missMarker = document.createElement("div");
     missMarker.className = "miss-marker";
     const [x, y] = XY;
@@ -57,10 +71,41 @@ const Dom = (() => {
       `.${playerTag}-board-cell[id="${x}${y}"]`,
     );
     cell.append(missMarker);
+    missMarker.animate(
+      [
+        { transform: "scale(0.6)", opacity: 0.6, offset: 0 },
+        { transform: "scale(1.15)", opacity: 1, offset: 0.6 },
+        { transform: "scale(1.0)", opacity: 1, offset: 1 },
+      ],
+      { duration: 500, easing: "ease-out", iterations: 1 },
+    );
+
     console.log("renderMiss finished");
   };
+  const switchPlayerPerspective = (p1gameBoard, p2gameBoard, isP1veiw) => {
+    if (isP1veiw) {
+      renderShips(p1gameBoard, "p1");
+      deRenderShips("p2");
+    }
 
-  return { renderBoard, renderShips, deRenderShips, renderHit, renderMiss };
+    if (!isP1veiw) {
+      renderShips(p2gameBoard, "p2");
+      deRenderShips("p1");
+    }
+
+    const gameContainer = document.querySelector(".game-container");
+    const first = gameContainer.children[0];
+    gameContainer.appendChild(first); // Moves the first child to the end
+  };
+
+  return {
+    renderBoard,
+    renderShips,
+    deRenderShips,
+    renderHit,
+    renderMiss,
+    switchPlayerPerspective,
+  };
 })();
 
 export default Dom;
