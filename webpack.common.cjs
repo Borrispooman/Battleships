@@ -28,6 +28,13 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
+      {
+        test: /\.(wav|mp3|ogg|m4a)$/i,
+        type: 'asset/resource', // emit file and return URL
+        generator: {
+          filename: 'assets/audio/[name][hash][ext]'
+        }
+			},
     ],
   },
 };

@@ -8,6 +8,9 @@ export default class Game {
     this.passAndPlay = false;
     this.winner = null;
   }
+  setPassPlay() {
+    this.aiMode = false;
+  }
   swapTurns() {
     this.p1Turn = this.p1Turn === true ? false : true;
     this.p2Turn = this.p2Turn === true ? false : true;
@@ -63,32 +66,32 @@ export default class Game {
     const p2ship = new Ship(3);
 
     p2ship.setSpanXYs([
-      [0, 1],
-      [0, 2],
-      [0, 3],
+      [9, 7],
+      [9, 8],
+      [9, 9],
     ]);
     const p2ship2 = new Ship(3);
 
     p2ship2.setSpanXYs([
-      [3, 1],
-      [3, 2],
-      [3, 3],
+      [7, 1],
+      [7, 2],
+      [7, 3],
     ]);
 
     const p2ship3 = new Ship(3);
 
     p2ship3.setSpanXYs([
-      [5, 1],
-      [5, 2],
-      [5, 3],
+      [4, 1],
+      [4, 2],
+      [4, 3],
     ]);
 
     const p2ship4 = new Ship(3);
 
     p2ship4.setSpanXYs([
-      [1, 5],
-      [2, 5],
-      [3, 5],
+      [4, 5],
+      [5, 5],
+      [6, 5],
     ]);
 
     p2gameboard.placeShip(p2ship);

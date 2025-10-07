@@ -1,3 +1,13 @@
+import hitUrl from "./Assets/hit-audio-fixed.m4a";
+let hitAudio = new Audio(hitUrl);
+hitAudio.preload = "auto";
+hitAudio.volume = "0.7";
+
+import missUrl from "./Assets/miss-audio-fixed.m4a";
+let missAudio = new Audio(missUrl);
+missAudio.preload = "auto";
+missAudio.volume = "0.7";
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -44,7 +54,6 @@ const Dom = (() => {
     });
   };
   const renderHit = async (XY, playerTag) => {
-    await sleep(1500);
     const hitMarker = document.createElement("div");
     hitMarker.className = "hit-marker";
     const [x, y] = XY;
@@ -52,6 +61,7 @@ const Dom = (() => {
       `.${playerTag}-board-cell[id="${x}${y}"]`,
     );
     cell.append(hitMarker);
+    hitAudio.play();
     hitMarker.animate(
       [
         { transform: "scale(0.6)", opacity: 0.6, offset: 0 },
@@ -63,7 +73,6 @@ const Dom = (() => {
     console.log("renderHit finished");
   };
   const renderMiss = async (XY, playerTag) => {
-    await sleep(1500);
     const missMarker = document.createElement("div");
     missMarker.className = "miss-marker";
     const [x, y] = XY;
@@ -71,6 +80,7 @@ const Dom = (() => {
       `.${playerTag}-board-cell[id="${x}${y}"]`,
     );
     cell.append(missMarker);
+    missAudio.play();
     missMarker.animate(
       [
         { transform: "scale(0.6)", opacity: 0.6, offset: 0 },
@@ -82,7 +92,12 @@ const Dom = (() => {
 
     console.log("renderMiss finished");
   };
-  const switchPlayerPerspective = (p1gameBoard, p2gameBoard, isP1veiw) => {
+  const switchPlayerPerspective = async (
+    p1gameBoard,
+    p2gameBoard,
+    isP1veiw,
+  ) => {
+    await sleep(1500);
     if (isP1veiw) {
       renderShips(p1gameBoard, "p1");
       deRenderShips("p2");

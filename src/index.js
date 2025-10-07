@@ -2,89 +2,14 @@ import Ship from "./ship.js";
 import Gameboard from "./gameboard.js";
 import Player from "./player.js";
 import Dom from "./dom.js";
+import Game from "./game-controls.js";
 import "./style.css";
 import "./reset.css";
 
-function createDummyShip(gameboard, p2gameboard) {
-  const ship = new Ship(3);
-
-  ship.setSpanXYs([
-    [0, 1],
-    [0, 2],
-    [0, 3],
-  ]);
-
-  const ship2 = new Ship(3);
-
-  ship2.setSpanXYs([
-    [3, 1],
-    [3, 2],
-    [3, 3],
-  ]);
-
-  const ship3 = new Ship(3);
-
-  ship3.setSpanXYs([
-    [5, 1],
-    [5, 2],
-    [5, 3],
-  ]);
-
-  const ship4 = new Ship(3);
-
-  ship4.setSpanXYs([
-    [1, 5],
-    [2, 5],
-    [3, 5],
-  ]);
-
-  gameboard.placeShip(ship);
-  gameboard.placeShip(ship2);
-  gameboard.placeShip(ship3);
-  gameboard.placeShip(ship4);
-  const p2ship = new Ship(3);
-
-  p2ship.setSpanXYs([
-    [0, 1],
-    [0, 2],
-    [0, 3],
-  ]);
-  const p2ship2 = new Ship(3);
-
-  p2ship2.setSpanXYs([
-    [3, 1],
-    [3, 2],
-    [3, 3],
-  ]);
-
-  const p2ship3 = new Ship(3);
-
-  p2ship3.setSpanXYs([
-    [5, 1],
-    [5, 2],
-    [5, 3],
-  ]);
-
-  const p2ship4 = new Ship(3);
-
-  p2ship4.setSpanXYs([
-    [1, 5],
-    [2, 5],
-    [3, 5],
-  ]);
-
-  p2gameboard.placeShip(p2ship);
-  p2gameboard.placeShip(p2ship2);
-  p2gameboard.placeShip(p2ship3);
-  p2gameboard.placeShip(p2ship4);
-}
-
-let aiMode = false;
-let p1Turn = true;
-let p2Turn = false;
-
-const gameboard = new Gameboard();
+const p1gameboard = new Gameboard();
 const p2gameboard = new Gameboard();
+const game = new Game();
+game.setPassPlay();
 
 Dom.renderBoard(".p1-board-container", "p1");
 Dom.renderBoard(".p2-board-container", "p2");
@@ -93,29 +18,25 @@ const p1BoardCells = document.querySelectorAll(".p1-board-cell");
 
 p1BoardCells.forEach((cell) =>
   cell.addEventListener("click", (event) => {
-    if (p2Turn) {
+    if (game.p2Turn) {
       const clickedCell = event.target.id || event.target.parentNode.id;
       console.log(clickedCell);
       const [x, y] = clickedCell.split("");
       const intXY = [parseInt(x), parseInt(y)];
-      const status = gameboard.receiveAttack(intXY);
+      const status = p1gameboard.receiveAttack(intXY);
       if (status === "hit") {
         Dom.renderHit(intXY, "p1");
-        p1Turn = true;
-        p2Turn = false;
-        if (!aiMode) {
-          Dom.deRenderShips("p2");
-          Dom.renderShips(gameboard, "p1");
+        if (!game.aiMode) {
+          Dom.switchPlayerPerspective(p1gameboard, p2gameboard, true);
         }
+        game.swapTurns();
         return;
       } else if (status === "miss") {
         Dom.renderMiss(intXY, "p1");
-        p1Turn = true;
-        p2Turn = false;
-        if (!aiMode) {
-          Dom.renderShips(gameboard, "p1");
-          Dom.deRenderShips("p2");
+        if (!game.aiMode) {
+          Dom.switchPlayerPerspective(p1gameboard, p2gameboard, true);
         }
+        game.swapTurns();
         return;
       } else {
         //Dom.handleAlreadyAttacked();
@@ -130,34 +51,54 @@ const p2BoardCells = document.querySelectorAll(".p2-board-cell");
 
 p2BoardCells.forEach((cell) =>
   cell.addEventListener("click", (event) => {
-    if (p1Turn) {
+    console.log("clicked");
+    console.log(game.p1Turn);
+    if (game.p1Turn) {
       const clickedCell = event.target.id || event.target.parentNode.id;
-      console.log(clickedCell);
       const [x, y] = clickedCell.split("");
       const intXY = [parseInt(x), parseInt(y)];
       const status = p2gameboard.receiveAttack(intXY);
+      console.log(status);
       if (status === "hit") {
-        Dom.renderHit(intXY, "p2");
-        p2Turn = true;
-        p1Turn = false;
-        if (aiMode) {
-          computerAttack();
+        if (game.aiMode) {
+          const attackData = game.computerAttack(p1gameboard);
+          const attackStatus = attackData[0];
+          const attackXY = attackData[1];
+          if (attackStatus === "hit") {
+            Dom.renderHit(attackXY, "p1");
+            game.swapTurns();
+            return;
+          } else if (attackStatus === "miss") {
+            Dom.renderMiss(attackXY, "p1");
+            game.swapTurns();
+            return;
+          }
         } else {
-          Dom.renderShips(p2gameboard, "p2");
-          Dom.deRenderShips("p1");
+          Dom.renderHit(intXY, "p2");
+          Dom.switchPlayerPerspective(p1gameboard, p2gameboard, false);
+          game.swapTurns();
         }
         return;
       } else if (status === "miss") {
-        Dom.renderMiss(intXY, "p2");
-        p2Turn = true;
-        p1Turn = false;
-        if (aiMode) {
-          computerAttack();
+        if (game.aiMode) {
+          const attackData = game.computerAttack(p1gameboard);
+          const attackStatus = attackData[0];
+          const attackXY = attackData[1];
+          if (attackStatus === "hit") {
+            Dom.renderHit(attackXY, "p1");
+            game.swapTurns();
+            return;
+          } else if (attackStatus === "miss") {
+            Dom.renderMiss(attackXY, "p1");
+            game.swapTurns();
+            return;
+          }
         } else {
-          Dom.deRenderShips("p1");
-          Dom.renderShips(p2gameboard, "p2");
+          Dom.renderMiss(intXY, "p2");
+          Dom.switchPlayerPerspective(p1gameboard, p2gameboard, false);
+          game.swapTurns();
+          return;
         }
-        return;
       } else {
         //Dom.handleAlreadyAttacked();
       }
@@ -167,29 +108,6 @@ p2BoardCells.forEach((cell) =>
   }),
 );
 
-function computerAttack() {
-  const x = Math.floor(Math.random() * 10);
-  const y = Math.floor(Math.random() * 10);
+game.createDummyShips(p1gameboard, p2gameboard);
 
-  const status = gameboard.receiveAttack([x, y]);
-
-  if (status === null) {
-    computerAttack();
-    return;
-  }
-  if (status === "hit") {
-    Dom.renderHit([x, y], "p1");
-    p1Turn = true;
-    p2Turn = false;
-    return;
-  } else if (status === "miss") {
-    Dom.renderMiss([x, y], "p1");
-    p1Turn = true;
-    p2Turn = false;
-    return;
-  }
-}
-
-createDummyShip(gameboard, p2gameboard);
-
-Dom.renderShips(gameboard, "p1");
+Dom.renderShips(p1gameboard, "p1");
