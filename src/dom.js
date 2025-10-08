@@ -13,6 +13,22 @@ function sleep(ms) {
 }
 
 const Dom = (() => {
+  const renderPlacementShips = (ships) => {};
+
+  const renderPlacementBoard = (targetDiv, playerTag) => {
+    const boardDiv = document.createElement("div");
+    boardDiv.className = `${playerTag}-placement-board`;
+    for (let i = 0; i < 100; i++) {
+      const x = Math.floor(i / 10);
+      const y = i % 10;
+
+      const cell = document.createElement("div");
+      cell.id = `${x}${y}`;
+      cell.className = `${playerTag}-placement-cell`;
+      boardDiv.append(cell);
+    }
+    document.querySelector(targetDiv).append(boardDiv);
+  };
   const renderBoard = (targetDiv, playerTag) => {
     const boardDiv = document.createElement("div");
     boardDiv.className = `${playerTag}-board-div`;
@@ -120,6 +136,7 @@ const Dom = (() => {
     renderHit,
     renderMiss,
     switchPlayerPerspective,
+    renderPlacementBoard,
   };
 })();
 

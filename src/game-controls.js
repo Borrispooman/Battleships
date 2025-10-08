@@ -1,5 +1,9 @@
 import Ship from "./ship.js";
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export default class Game {
   constructor() {
     this.p1Turn = true;
@@ -15,6 +19,10 @@ export default class Game {
     this.p1Turn = this.p1Turn === true ? false : true;
     this.p2Turn = this.p2Turn === true ? false : true;
   }
+  async sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
   computerAttack(gameboard) {
     const x = Math.floor(Math.random() * 10);
     const y = Math.floor(Math.random() * 10);
