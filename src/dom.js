@@ -13,7 +13,17 @@ function sleep(ms) {
 }
 
 const Dom = (() => {
-  const renderPlacementShips = (ships) => {};
+  const renderPlacementShips = (ships) => {
+    const shipsContainer = document.createElement("div");
+    for (let i = 0; i < ships.length; i++) {
+      const ship = document.createElement("div");
+      ship.className = "placement-ship";
+      ship.id = `${ships[i].length}`;
+      ship.style.width = `${ships[i].length * 50}px`;
+      shipsContainer.append(ship);
+    }
+    document.querySelector(".place-ships-container").append(shipsContainer);
+  };
 
   const renderPlacementBoard = (targetDiv, playerTag) => {
     const boardDiv = document.createElement("div");
@@ -137,6 +147,7 @@ const Dom = (() => {
     renderMiss,
     switchPlayerPerspective,
     renderPlacementBoard,
+    renderPlacementShips,
   };
 })();
 

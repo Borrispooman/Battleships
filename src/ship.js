@@ -1,3 +1,21 @@
+function getRandomSpanXYs(length, gridSize = 10) {
+  // Generate random coordinates within a grid
+  const span = [];
+  const startX = Math.floor(Math.random() * gridSize);
+  const startY = Math.floor(Math.random() * gridSize);
+  const horizontal = Math.random() < 0.5; // 50% chance horizontal or vertical
+
+  for (let i = 0; i < length; i++) {
+    const x = horizontal ? startX + i : startX;
+    const y = horizontal ? startY : startY + i;
+
+    // wrap around if needed
+    span.push([x % gridSize, y % gridSize]);
+  }
+
+  return span;
+}
+
 export default class Ship {
   constructor(length) {
     this.length = length;
@@ -18,5 +36,18 @@ export default class Ship {
   }
   setSpanXYs(spanXYsArr) {
     this.spanXYsArr = spanXYsArr;
+  }
+  createRandomFleet() {
+    const lengths = [5, 4, 3, 3, 2];
+    const fleet = [];
+
+    for (const len of lengths) {
+      const ship = new Ship(len);
+      const spanXYs = getRandomSpanXYs(len);
+      ship.setSpanXYs(spanXYs);
+      fleet.push(ship);
+    }
+
+    return fleet;
   }
 }

@@ -21,7 +21,7 @@ body {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-rows: 1.5fr 0.5fr 6fr 2fr;
+  grid-template-rows: 1.5fr 0.5fr 1fr 6fr 2fr;
   background: black;
 }
 
@@ -42,12 +42,22 @@ header {
   justify-content: center;
   align-items: center;
 }
+.place-ships-container div {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-bottom: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
 
 .game-container {
   justify-content: center;
   align-items: center;
   display: flex;
 }
+
 .two-boards {
   gap: 100px;
 }
@@ -104,4 +114,13 @@ button {
   border-radius: 50%;
   height: 70%;
   width: 70%;
+}
+
+.placement-ship {
+  background-color: #2a2a2a;
+  height: 50px;
+}
+
+.selected {
+  background-color: white;
 }
